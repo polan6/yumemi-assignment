@@ -12,6 +12,6 @@ export async function GET(req) {
     return Response.json(data)
   } catch (error) {
     console.log('Error fetching user data:', error);
-    return Response.json({ count: 'アクセスカウンターが表示できません' }, { status: 500 })
+    return Response.json({ result:[] }, { status: 500 })
   }
 }

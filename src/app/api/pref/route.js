@@ -10,6 +10,6 @@ export async function GET() {
     return Response.json(data)
   } catch (error) {
     console.log('Error fetching user data:', error);
-    return Response.json({result:[]}, { status: 500 })
+    return Response.json({result:{data:[{label:"",data:[]},{label:"",data:[]},{label:"",data:[]},{label:"",data:[]},]}}, { status: 500 })
   }
 }

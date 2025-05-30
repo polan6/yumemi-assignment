@@ -39,24 +39,36 @@ export default function Home() {
 
 	useEffect(()=>{
 		async function fetchPrefs(){
-			const res=await fetch('/api/pref')
-			const data=await res.json()
-			setPrefs(data.result)
-			loadChart(data.result,checkedPrefs,populations,chartType)
+			try {
+				const res=await fetch('/api/pref')
+				const data=await res.json()
+				console.log(data)
+				setPrefs(data.result)
+				loadChart(data.result,checkedPrefs,populations,chartType)
+			} catch (error) {
+				console.error("Error fetching preferences:", error);
+				return;
+			}
 		}
 		fetchPrefs()
 	},[])
   const handlePrefChange = async(code: number) => {
-		let newPopulations=populations
-		if(!checkedPrefs[code]){
-			const res=await fetch(`/api/data?prefCode=${code}`)
-			const data=await res.json()
-			newPopulations={...populations,[code]:data.result}
-			setPopulations(newPopulations)
+		try {
+			let newPopulations=populations
+			if(!checkedPrefs[code]){
+				const res=await fetch(`/api/data?prefCode=${code}`)
+				const data=await res.json()
+
+				newPopulations={...populations,[code]:data.result}
+				setPopulations(newPopulations)
+			}
+			const newCheckedPrefs={...checkedPrefs,[code]: !checkedPrefs[code]}
+			setCheckedPrefs(newCheckedPrefs)
+			loadChart(prefs,newCheckedPrefs,newPopulations,chartType)
+		} catch (error) {
+			console.error("Error fetching preferences:", error);
+			return;
 		}
-		const newCheckedPrefs={...checkedPrefs,[code]: !checkedPrefs[code]}
-    setCheckedPrefs(newCheckedPrefs)
-		loadChart(prefs,newCheckedPrefs,newPopulations,chartType)
   };
 	const handleChartTypeChange=(event:React.ChangeEvent<HTMLSelectElement>)=>{
 		setChartType(event.target.value)
