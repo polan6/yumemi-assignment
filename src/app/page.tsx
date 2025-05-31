@@ -79,6 +79,9 @@ export default function Home() {
 			</select>
 			</div>
 			<div id="chart_container"></div>
+			<div className="footer">
+			GitHub: <a href="https://github.com/polan6/yumemi-assignment">https://github.com/polan6/yumemi-assignment</a>
+			</div>
 		</>
   );
 }
